@@ -118,7 +118,6 @@
         font-family: var(--M);
         font-size: 12px;
         font-weight: 900;
-        color: #d94000;
         letter-spacing: 0.06em;
         text-transform: uppercase;
         position: relative;
@@ -126,12 +125,33 @@
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.55), rgba(255,243,236,0.5));
+        box-shadow: 0 4px 12px rgba(217,64,0,0.08);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
       }
       .disc-fl-fire {
-        font-size: 15px;
-        display: inline-block;
-        animation: fireAnim 1s ease-in-out infinite;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #fff4e6, #ffe8d6);
+        color: #c95312;
+        box-shadow: 0 2px 8px rgba(201,83,18,0.12);
+      }
+      #discName {
+        font-weight: 900;
+        font-size: 13px;
+        background: linear-gradient(90deg, #ff6b35, #ff8555);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
       @keyframes fireAnim {
         0%,
@@ -1393,7 +1413,7 @@
     <header class="sticky-header">
       <div class="disc-bar" id="discBar">
         <span class="disc-fl"
-          ><span class="disc-fl-fire">🔥</span
+          ><span class="disc-fl-fire">🌙</span
           ><span id="discName">সীমিত সময়ের Offer</span></span
         >
         <span class="disc-price-group">
@@ -2171,8 +2191,28 @@
           seed = seed ^ (seed >>> 16);
           return 31 + (seed % 11);
         }
-        var disc = getDailyDiscount(),
-          CURR = Math.round(ORIG * (1 - disc / 100));
+        var disc = getDailyDiscount();
+        var promoStartUTC = null;
+        var promoEndUTC = null;
+        /* Promo override: ঈদুল আযহা অফার — 61% for 5 days (including today) */
+        (function () {
+          var now = new Date();
+          var promoDays = 5;
+          promoStartUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+          promoEndUTC = promoStartUTC + promoDays * 24 * 3600000;
+          if (now.getTime() >= promoStartUTC && now.getTime() < promoEndUTC) {
+            disc = 61;
+            window.__promoDiscName = "ঈদুল আযহা অফার";
+          } else {
+            window.__promoDiscName = null;
+            promoStartUTC = null;
+            promoEndUTC = null;
+          }
+        })();
+
+        var CURR = Math.round(ORIG * (1 - disc / 100));
+
+        /* Set prices */
         function setTxt(id, v) {
           var e = document.getElementById(id);
           if (e) e.textContent = v;
@@ -2189,7 +2229,7 @@
           "Jumma Discount",
           "Weekend Discount",
         ];
-        setTxt("discName", dayNames[new Date().getUTCDay()]);
+        setTxt("discName", window.__promoDiscName || dayNames[new Date().getUTCDay()]);
         function pad(n) {
           return n < 10 ? "0" + n : "" + n;
         }
@@ -2205,7 +2245,11 @@
           }
         }
         function tick() {
-          var now = new Date(),
+          var now = new Date();
+          var end;
+          if (promoEndUTC && now.getTime() < promoEndUTC) {
+            end = new Date(promoEndUTC);
+          } else {
             end = new Date(
               Date.UTC(
                 now.getUTCFullYear(),
@@ -2215,14 +2259,17 @@
                 0,
                 0,
               ),
-            ),
-            diff = Math.max(0, end - now);
-          animSet("tH", Math.floor(diff / 3600000));
-          animSet("tM", Math.floor((diff % 3600000) / 60000));
-          animSet("tS", Math.floor((diff % 60000) / 1000));
+            );
+          }
+          var diff = Math.max(0, end - now);
+          var h = Math.floor(diff / 3600000),
+            m = Math.floor((diff % 3600000) / 60000),
+            s = Math.floor((diff % 60000) / 1000);
+          animSet("tH", h);
+          animSet("tM", m);
+          animSet("tS", s);
           var bar = document.getElementById("discBar");
-          if (bar)
-            bar.classList.toggle("disc-urgent", Math.floor(diff / 3600000) < 1);
+          if (bar) bar.classList.toggle("disc-urgent", h < 1);
         }
         tick();
         setInterval(tick, 1000);
@@ -2239,23 +2286,6 @@
         },
         { passive: true },
       );
-
-      var prog = document.getElementById("sectionProgress");
-      if (prog)
-        window.addEventListener(
-          "scroll",
-          function () {
-            prog.style.width =
-              Math.min(
-                100,
-                (document.documentElement.scrollTop /
-                  (document.documentElement.scrollHeight -
-                    window.innerHeight)) *
-                  100,
-              ) + "%";
-          },
-          { passive: true },
-        );
 
       (function () {
         var b = document.getElementById("btt");
