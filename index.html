@@ -132,6 +132,7 @@
         font-family: var(--M);
         font-size: 12px;
         font-weight: 900;
+        color: #d94000;
         letter-spacing: 0.06em;
         text-transform: uppercase;
         position: relative;
@@ -139,36 +140,13 @@
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: linear-gradient(90deg, rgba(255,255,255,0.55), rgba(255,243,236,0.5));
-        box-shadow: 0 4px 12px rgba(217,64,0,0.08);
-        -webkit-backdrop-filter: blur(6px);
-        backdrop-filter: blur(6px);
+        gap: 6px;
       }
 
       .disc-fl-fire {
-        font-size: 16px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #fff4e6, #ffe8d6);
-        color: #c95312;
-        box-shadow: 0 2px 8px rgba(201,83,18,0.12);
-      }
-
-      /* Stylish gradient for the promo name */
-      #discName {
-        font-weight: 900;
-        font-size: 13px;
-        background: linear-gradient(90deg, #ff6b35, #ff8555);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 15px;
+        display: inline-block;
+        animation: fireAnim 1s ease-in-out infinite;
       }
 
       @keyframes fireAnim {
@@ -3029,7 +3007,7 @@
       <!-- ════ DISCOUNT BAR ════ -->
       <div class="disc-bar" id="discBar">
         <span class="disc-fl"
-          ><span class="disc-fl-fire">🌙</span
+          ><span class="disc-fl-fire">🔥</span
           ><span id="discName">সীমিত সময়ের Offer</span></span
         >
         <span class="disc-price-group">
@@ -4117,24 +4095,6 @@
         }
         var disc = getDailyDiscount();
 
-        /* Promo override: ঈদুল আযহা অফার — 61% for 5 days (including today) */
-        var promoStartUTC = null;
-        var promoEndUTC = null;
-        (function () {
-          var now = new Date();
-          var promoDays = 5; // total days the promo runs (today + next 4 days)
-          promoStartUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
-          promoEndUTC = promoStartUTC + promoDays * 24 * 3600000;
-          if (now.getTime() >= promoStartUTC && now.getTime() < promoEndUTC) {
-            disc = 61;
-            window.__promoDiscName = "ঈদুল আযহা অফার";
-          } else {
-            window.__promoDiscName = null;
-            promoStartUTC = null;
-            promoEndUTC = null;
-          }
-        })();
-
         var CURR = Math.round(ORIG * (1 - disc / 100));
 
         /* Set prices */
@@ -4158,7 +4118,7 @@
           "Jumma Discount",
           "Weekend Discount",
         ];
-        setTxt("discName", window.__promoDiscName || dayNames[new Date().getUTCDay()]);
+        setTxt("discName", dayNames[new Date().getUTCDay()]);
 
         /* Countdown timer — counts down to UTC 00:00 (Forex Daily Candle open = BD 06:00 AM) */
         function pad(n) {
@@ -4179,21 +4139,16 @@
 
         function tick() {
           var now = new Date();
-          var end;
-          if (promoEndUTC && now.getTime() < promoEndUTC) {
-            end = new Date(promoEndUTC);
-          } else {
-            end = new Date(
-              Date.UTC(
-                now.getUTCFullYear(),
-                now.getUTCMonth(),
-                now.getUTCDate() + 1,
-                0,
-                0,
-                0,
-              ),
-            );
-          }
+          var end = new Date(
+            Date.UTC(
+              now.getUTCFullYear(),
+              now.getUTCMonth(),
+              now.getUTCDate() + 1,
+              0,
+              0,
+              0,
+            ),
+          );
           var diff = Math.max(0, end - now);
           var h = Math.floor(diff / 3600000),
             m = Math.floor((diff % 3600000) / 60000),
