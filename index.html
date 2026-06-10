@@ -457,6 +457,365 @@
         }
       }
 
+      /* ══ ENTRY OVERLAY ══ */
+      .eo {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: linear-gradient(
+          135deg,
+          #faf8f3 0%,
+          #fff5eb 25%,
+          #faf8f3 50%,
+          #f0ebe3 75%,
+          #faf8f3 100%
+        );
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        transition: opacity 0.4s ease;
+        overflow: hidden;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .eo::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 600px 400px at 20% 40%,
+            rgba(255, 107, 53, 0.15),
+            transparent 40%
+          ),
+          radial-gradient(
+            ellipse 500px 350px at 80% 60%,
+            rgba(0, 102, 255, 0.08),
+            transparent 45%
+          ),
+          radial-gradient(
+            ellipse 400px 300px at 50% 20%,
+            rgba(255, 180, 0, 0.06),
+            transparent 50%
+          );
+        pointer-events: none;
+        animation: gradientFloat 20s ease-in-out infinite;
+      }
+
+      @keyframes gradientFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+
+        25% {
+          transform: translate(20px, -15px) scale(1.05);
+        }
+
+        50% {
+          transform: translate(-10px, 20px) scale(1);
+        }
+
+        75% {
+          transform: translate(15px, -10px) scale(1.03);
+        }
+      }
+
+      .eo.hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .eo-box {
+        position: relative;
+        z-index: 1;
+        max-width: 410px;
+        width: 100%;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 107, 53, 0.15);
+        border-radius: 24px;
+        padding: 48px 32px;
+        box-shadow:
+          0 20px 60px rgba(255, 107, 53, 0.1),
+          0 0 1px rgba(15, 20, 25, 0.1);
+        animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .eo-logo {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #ff6b35, #ff8555);
+        border-radius: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--M);
+        font-size: 19px;
+        font-weight: 700;
+        color: #ffffff;
+        box-shadow:
+          0 8px 24px rgba(255, 107, 53, 0.3),
+          0 0 20px rgba(255, 107, 53, 0.2);
+        position: relative;
+        animation: logoFloat 3s ease-in-out infinite;
+      }
+
+      @keyframes logoFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .eo-title {
+        font-family: var(--H);
+        font-size: clamp(21px, 5vw, 26px);
+        font-weight: 800;
+        color: var(--ink);
+        letter-spacing: -0.035em;
+        line-height: 1.18;
+        margin-bottom: 5px;
+      }
+
+      .eo-sub {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-bottom: 22px;
+        line-height: 1.5;
+      }
+
+      .eo-div {
+        width: 36px;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--amber),
+          transparent
+        );
+        margin: 0 auto 22px;
+      }
+
+      .eo-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* wrapper holds the floating tag + button together */
+      .eo-call-wrap {
+        position: relative;
+        padding-top: 16px;
+      }
+
+      /* floating recommended tag — sits above button, centered */
+      .eo-call-rec {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--M);
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: #ffffff;
+        color: #00a86b;
+        border: 1px solid rgba(0, 168, 107, 0.45);
+        padding: 4px 11px 4px 9px;
+        border-radius: 100px;
+        white-space: nowrap;
+        box-shadow: 0 2px 8px rgba(0, 168, 107, 0.2);
+      }
+
+      .eo-rec-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #00a86b;
+        box-shadow: 0 0 0 0 rgba(0, 168, 107, 0.7);
+        animation: recPulse 1.6s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+
+      @keyframes recPulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(0, 168, 107, 0.7);
+        }
+
+        60% {
+          box-shadow: 0 0 0 5px rgba(0, 168, 107, 0);
+        }
+
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 168, 107, 0);
+        }
+      }
+
+      .eo-call {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff5320 100%);
+        color: #ffffff;
+        padding: 16px 26px;
+        border-radius: 13px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow:
+          0 10px 32px rgba(255, 107, 53, 0.5),
+          0 0 0 1.5px rgba(255, 107, 53, 0.25);
+        text-align: center;
+        width: 100%;
+        border: none;
+      }
+
+      .eo-call::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
+          transparent 55%
+        );
+        pointer-events: none;
+      }
+
+      .eo-call::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        animation: btnShimmer 2.8s ease-in-out infinite;
+      }
+
+      .eo-call-ic {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .eo-call-body {
+        position: relative;
+        z-index: 1;
+      }
+
+      .eo-call-main {
+        font-family: var(--H);
+        font-size: 17px;
+        font-weight: 900;
+        color: #ffffff;
+        line-height: 1;
+        display: block;
+      }
+
+      .eo-call:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow:
+          0 16px 48px rgba(255, 107, 53, 0.65),
+          0 0 0 2px rgba(255, 107, 53, 0.4);
+        background: linear-gradient(135deg, #ff5320 0%, #ff3d00 100%);
+      }
+
+      .eo-call:active {
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .eo-skip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: rgba(255, 107, 53, 0.1);
+        color: #3a4450;
+        padding: 12px 22px;
+        border-radius: 11px;
+        border: 1.5px solid #ff6b35;
+        font-family: var(--H);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.22s;
+        font-weight: 700;
+      }
+
+      .eo-skip:hover {
+        border-color: #ff5320;
+        background: rgba(255, 107, 53, 0.2);
+        color: #0f1419;
+        transform: translateY(-2px);
+      }
+
+      .eo-skip:active {
+        transform: translateY(0);
+      }
+
+      body.locked {
+        overflow: hidden;
+      }
+
       /* ══ STICKY HEADER WRAPPER ══ */
       .sticky-header {
         position: sticky;
@@ -1978,6 +2337,94 @@
         }
       }
 
+      /* ══ ENTRY OVERLAY — Cinematic ══ */
+      .eo {
+        animation: none;
+      }
+
+      .eo-box {
+        animation: eoBoxIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+      }
+
+      .eo-logo {
+        animation:
+          eoLogoIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both,
+          logoFloat 3s ease-in-out 1s infinite;
+      }
+
+      .eo-title {
+        animation: eoItemIn 0.5s ease 0.4s both;
+      }
+
+      .eo-sub {
+        animation: eoItemIn 0.5s ease 0.5s both;
+      }
+
+      .eo-div {
+        animation: eoLineIn 0.6s ease 0.6s both;
+      }
+
+      .eo-btns {
+        animation: eoItemIn 0.5s ease 0.65s both;
+      }
+
+      @keyframes eoBoxIn {
+        from {
+          opacity: 0;
+          transform: translateY(40px) scale(0.94);
+          filter: blur(4px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes eoLogoIn {
+        from {
+          opacity: 0;
+          transform: scale(0.5) rotate(-15deg);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+      }
+
+      @keyframes eoItemIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes eoLineIn {
+        from {
+          opacity: 0;
+          width: 0;
+        }
+
+        to {
+          opacity: 1;
+          width: 36px;
+        }
+      }
+
+      .eo-title,
+      .eo-sub,
+      .eo-div,
+      .eo-btns {
+        opacity: 0;
+      }
+
       /* ══ HERO — Word animation support ══ */
       .hero-word {
         display: inline-block;
@@ -2321,7 +2768,8 @@
       /* ══ BUTTONS — Magnetic hover support ══ */
       .btn-primary,
       .btn-ghost,
-      .nav-cta {
+      .nav-cta,
+      .eo-call {
         transition:
           transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
           box-shadow 0.3s ease,
@@ -2573,7 +3021,7 @@
     </style>
   </head>
 
-  <body>
+  <body class="locked">
     <div class="section-progress" id="sectionProgress"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
     <!-- ════ STICKY HEADER ════ -->
@@ -2645,6 +3093,49 @@
         </div>
       </nav>
     </header>
+    <!-- ════ ENTRY OVERLAY ════ -->
+    <div id="eo" class="eo">
+      <div class="eo-box">
+        <div class="eo-logo">NLT</div>
+        <div class="eo-title">Exclusive Mentorship<br />by NLT</div>
+        <div class="eo-sub">ICT-Based Trading · সহজ বাংলায়</div>
+        <div class="eo-div"></div>
+        <div class="eo-btns">
+          <div class="eo-call-wrap">
+            <span class="eo-call-rec"
+              ><span class="eo-rec-dot"></span>Recommended</span
+            >
+            <a
+              class="eo-call"
+              href="https://t.me/AskNLT"
+              target="_blank"
+              rel="noopener noreferrer"
+              onclick="
+                closeOverlay();
+                return true;
+              "
+            >
+              <div class="eo-call-ic">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="rgba(0,0,0,0.75)"
+                >
+                  <path
+                    d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.01 9.456c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.12l-6.87 4.326-2.962-.924c-.643-.204-.658-.643.136-.953l11.57-4.461c.537-.194 1.006.131.872.765z"
+                  />
+                </svg>
+              </div>
+              <span class="eo-call-main">সরাসরি Call করুন</span>
+            </a>
+          </div>
+          <button class="eo-skip" onclick="closeAndScroll()">
+            বিস্তারিত দেখুন →
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- ════ HERO ════ -->
     <section class="hero">
       <div class="hero-blob hero-blob-1"></div>
@@ -3716,6 +4207,20 @@
         tick();
         setInterval(tick, 1000);
       })();
+
+      /* Overlay */
+      function closeOverlay() {
+        var el = document.getElementById("eo");
+        document.body.classList.remove("locked");
+        el.classList.add("hide");
+        setTimeout(function () {
+          el.style.display = "none";
+        }, 420);
+      }
+
+      function closeAndScroll() {
+        closeOverlay();
+      }
 
       /* Navbar */
       var nb = document.getElementById("navbar");
