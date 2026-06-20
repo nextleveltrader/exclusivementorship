@@ -487,11 +487,6 @@
       .nav-cta:active {
         transform: translateY(0) scale(1.02);
       }
-      @media (max-width: 540px) {
-        .nav-link:not(.active) {
-          display: none;
-        }
-      }
 
       .section-progress {
         position: fixed;
@@ -1404,10 +1399,13 @@
 
         .nav-right {
           gap: 8px;
+          flex-wrap: wrap;
+          justify-content: flex-end;
         }
 
         .nav-link {
-          display: none;
+          display: inline-flex;
+          flex-wrap: wrap;
         }
 
         .nav-cta {
