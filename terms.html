@@ -1180,16 +1180,7 @@
         }
       }
 
-      @media (max-width: 380px) {
-        .nav-logo-sub {
-          display: none;
-        }
 
-        .nav-cta {
-          padding: 8px 13px;
-          font-size: 11.5px;
-        }
-      }
 
       /* ══ NLT SHARED ANIMATION SYSTEM ══ */
 
@@ -1414,74 +1405,136 @@
           transition-duration: 0.01ms !important;
         }
       }
-      /* Mobile header tweaks */
+
+      /* ══ HAMBURGER BUTTON ══ */
+      .nav-ham {
+        display: none;
+        width: 42px;
+        height: 42px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5.5px;
+        padding: 10px;
+        transition: background 0.2s;
+        flex-shrink: 0;
+        margin-left: auto;
+      }
+      .nav-ham:active { background: rgba(15,20,25,0.07); }
+      .nav-ham-bar {
+        width: 20px;
+        height: 2px;
+        background: var(--ink);
+        border-radius: 2px;
+        transition: all 0.28s cubic-bezier(0.34,1.56,0.64,1);
+        transform-origin: center;
+        display: block;
+      }
+      .nav-ham.open .nav-ham-bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+      .nav-ham.open .nav-ham-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .nav-ham.open .nav-ham-bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+      /* ══ MOBILE MENU DRAWER ══ */
+      .nav-mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 198;
+        background: rgba(250,248,243,0.98);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-bottom: 1px solid var(--line);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
+      }
+      .nav-mobile-menu.open {
+        max-height: 420px;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.11);
+      }
+      .nav-mob-links {
+        padding: 10px 16px 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .nav-mob-link {
+        display: flex;
+        align-items: center;
+        padding: 13px 14px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink-2);
+        border-radius: 10px;
+        transition: background 0.18s, color 0.18s;
+        text-decoration: none;
+        gap: 10px;
+      }
+      .nav-mob-link:active { background: var(--bg-elevated); }
+      .nav-mob-link.active { color: var(--amber); background: var(--amber-dim); }
+      .nav-mob-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 6px 14px;
+      }
+      .nav-mob-cta-wrap {
+        padding: 8px 16px 18px;
+      }
+      .nav-mob-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        background: linear-gradient(135deg, #ff6b35, #ff5320);
+        color: #fff;
+        font-family: var(--M);
+        font-size: 14px;
+        font-weight: 900;
+        padding: 15px 24px;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.22s;
+        box-shadow: 0 6px 22px rgba(255,107,53,0.45);
+        letter-spacing: 0.01em;
+        position: relative;
+        overflow: hidden;
+      }
+      .nav-mob-cta::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg,rgba(255,255,255,0.28),transparent 55%);
+        pointer-events: none;
+      }
+      .nav-mob-cta:active { transform: scale(0.98); }
+
+      /* ══ MOBILE HEADER OVERRIDES ══ */
       @media (max-width: 640px) {
         .nav-inner {
-          flex-direction: column;
-          align-items: stretch;
-          padding: 12px 14px;
-          height: auto;
-          gap: 10px;
-        }
-
-        .nav-logo {
-          gap: 8px;
-        }
-
-        .nav-logo-mark {
-          width: 32px;
-          height: 32px;
-          font-size: 11px;
-        }
-
-        .nav-logo-name {
-          font-size: 13px;
-        }
-
-        .nav-logo-sub {
-          display: none;
-        }
-
-        .nav-right {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          justify-content: space-between;
+          flex-direction: row;
           align-items: center;
+          height: 58px;
+          padding: 0 16px;
+          gap: 0;
         }
-
-        .nav-link {
-          display: inline-flex;
-          flex: 0 1 auto;
-          padding: 8px 10px;
-          font-size: 12px;
-          white-space: nowrap;
-        }
-
-        .nav-cta {
-          flex: 1 1 100%;
-          justify-content: center;
-          padding: 10px 12px;
-          font-size: 12px;
-        }
+        .nav-logo { gap: 9px; flex: 1; min-width: 0; }
+        .nav-logo-mark { width: 32px; height: 32px; font-size: 11px; border-radius: 9px; }
+        .nav-logo-name { font-size: 12.5px; }
+        .nav-logo-sub { display: none; }
+        .nav-right { display: none !important; }
+        .nav-ham { display: flex; }
+      }
+      @media (min-width: 641px) {
+        .nav-ham { display: none !important; }
+        .nav-mobile-menu { display: none !important; }
       }
 
-      @media (max-width: 480px) {
-        .nav-inner {
-          padding: 10px 12px;
-        }
-
-        .nav-right {
-          justify-content: center;
-        }
-
-        .nav-link {
-          flex: 1 1 45%;
-          justify-content: center;
-          white-space: normal;
-          text-align: center;
-        }
-      }
     </style>
   </head>
 
@@ -1553,7 +1606,30 @@
               Join করুন</a
             >
           </div>
+          <button class="nav-ham" id="navHam" aria-label="মেনু খুলুন" aria-expanded="false">
+            <span class="nav-ham-bar"></span>
+            <span class="nav-ham-bar"></span>
+            <span class="nav-ham-bar"></span>
+          </button>
         </div>
+
+      <div class="nav-mobile-menu" id="navMobileMenu">
+        <div class="nav-mob-links">
+                   
+          <a class="nav-mob-link" href="faq.html">FAQ</a>
+          <a class="nav-mob-link active" href="terms.html">Terms</a>
+          <a class="nav-mob-link" href="analysis.html">AI Tool</a>
+        </div>
+        <div class="nav-mob-divider"></div>
+              <div class="nav-mob-cta-wrap">
+        <a class="nav-mob-cta" href="https://t.me/AskNLT" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.01 9.456c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.12l-6.87 4.326-2.962-.924c-.643-.204-.658-.643.136-.953l11.57-4.461c.537-.194 1.006.131.872.765z"/>
+          </svg>
+          Join করুন
+        </a>
+      </div>
+      </div>
       </nav>
     </header>
     <!-- ════ PAGE HEADER ════ -->
@@ -2061,6 +2137,37 @@
         /* Nav link underline */
         document.querySelectorAll(".nav-link::after"); // CSS handles it
       })();
+
+      /* ── HAMBURGER MENU ── */
+      (function() {
+        var ham = document.getElementById("navHam");
+        var menu = document.getElementById("navMobileMenu");
+        var navbar = document.getElementById("navbar");
+        if (!ham || !menu) return;
+        function openMenu() {
+          ham.classList.add("open");
+          menu.classList.add("open");
+          ham.setAttribute("aria-expanded", "true");
+          document.addEventListener("click", outsideClick, true);
+        }
+        function closeMenu() {
+          ham.classList.remove("open");
+          menu.classList.remove("open");
+          ham.setAttribute("aria-expanded", "false");
+          document.removeEventListener("click", outsideClick, true);
+        }
+        function outsideClick(e) {
+          if (!navbar.contains(e.target)) closeMenu();
+        }
+        ham.addEventListener("click", function(e) {
+          e.stopPropagation();
+          ham.classList.contains("open") ? closeMenu() : openMenu();
+        });
+        menu.querySelectorAll("a").forEach(function(a) {
+          a.addEventListener("click", function() { closeMenu(); });
+        });
+      })();
+
     </script>
   </body>
 </html>
